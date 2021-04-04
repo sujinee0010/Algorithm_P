@@ -1,42 +1,42 @@
-import sys
+# n입력받기
+n = int(input())
 
-n = int(sys.stdin.readline())
+# 단어 입력받을 리스트 만들기
 words = []
-alpa = []
-visited = dict()
-for _ in range(n):
-    num = str(sys.stdin.readline()).strip()
-    words.append(num)
 
-    for i in range(len(num)):
-        if num[i] not in alpa:
-            alpa.append(num[i])
-            visited[num[i]] = False
+# 단어 입력받기
+for i in range(n):
+    words.append(input())
 
-alpa = sorted(alpa)
-num_set = []
-
-
-# 0 1 2 3 4 5 6 7 8 9 - 10 개 중 alpa len 개 뽑기
-def combi(choice, visited, snum):
-    if choice == 0:
-        if snum not in num_set:
-            num_set.append(snum)
-        return
-    else :
-        for i in range(10):
-            if not visited[i]:
-                # 선택
-                visited[i] = True
-                combi(choice - 1, visited, snum + str(i))
-                visited[i] = False
-
-print(alpa)
-
-visited = [False for _ in range(10)]
-print(visited)
-
-combi(len(alpa), visited, "")
-print(len(num_set))
+# 딕셔너리 초기화하기
+dict = {}
+# 딕셔너리에 알파벳당 숫자 집어넣기
+for word in words:
+    k = len(word) - 1
+    for s in word:
+        if s in dict:
+            dict[s] += pow(10, k)
+        else:
+            dict[s] = pow(10, k)
+        k -= 1
 
 
+# 숫자 리스트 초기화하기
+nums = []
+
+# 사전의 값들만으로 이루어진 리스트 초기화하기
+for value in dict.values():
+    nums.append(value)
+
+# 숫자 큰순으로 정렬하기
+nums.sort(reverse=True)
+
+# 출력할 값과 곱해야하는 수 초기화하기
+result, t = 0, 9
+
+# 값 구하기
+for i in range(len(nums)):
+    result += nums[i] * t
+    t -= 1
+
+print(result)
