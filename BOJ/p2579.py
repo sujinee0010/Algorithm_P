@@ -1,7 +1,5 @@
 """
-첫번째 or 두번째
-
-
+dp - 마지막 부터 생각해보기
 """
 
 import sys
@@ -12,20 +10,13 @@ steps = [0 for _ in range(n + 1)]
 for i in range(1, n + 1):
     steps[i] = int(sys.stdin.readline())
 
+dp = [0 for _ in range(n + 1)]
 
-def make_step(steps, sum, n, cnt):
-    ans = 0
-    if n == 0:
-        return sum
+
+for i in range(1, n + 1):
+    if i < 3:
+        dp[i] = dp[i-1]+steps[i]
     else:
-        # 한칸 뛰기
-        if cnt < 2 or n == 1:
-            ans = max(ans , make_step(steps, steps[n - 1] + sum, n - 1, cnt + 1))
+        dp[i] = max(dp[i - 2] + steps[i], dp[i - 3] + steps[i-1] + steps[i])
 
-        # 두칸 뛰기
-        if n - 2 >= 0:
-            ans = max(ans ,make_step(steps, steps[n - 2] + sum, n - 2, 1))
-        return ans
-
-
-print(make_step(steps, steps[n], n, 1))
+print(dp[-1])
